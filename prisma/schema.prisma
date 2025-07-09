@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model orders {
+  id          Int @id @default(autoincrement())
+  date        DateTime
+  customer    String
+  jastiper    Int
+  vendor      Int
+  menu        String
+  qty         Int
+  price       Int
+  notes       String?
+  status      Boolean
+  jastipers   jastipers @relation(fields:[jastiper], references:[id])
+  vendors     vendors @relation(fields:[vendor], references:[id])
+}
+
+model jastipers {
+  id          Int @id @default(autoincrement())
+  name        String
+  orders      orders[]
+}
+
+model vendors {
+  id          Int @id @default(autoincrement())
+  name        String
+  orders      orders[]
+}
